@@ -174,10 +174,10 @@ commands:
     def eval(self, ago):
         today_start_row = self.cursor.execute(
             f"SELECT datetime FROM time_table where type='day-start' ORDER BY datetime DESC LIMIT {ago}").fetchall()
-        today_start = today_start_row[-1][0] if len(today_start_row) != 0 else datetime.datetime.now()
+        today_start = datetime.datetime.fromisoformat(today_start_row[-1][0]) if len(today_start_row) != 0 else datetime.datetime.now()
         today_end_row = self.cursor.execute(
             f"SELECT datetime FROM time_table where type='day-stop' ORDER BY datetime DESC LIMIT {ago}").fetchall()
-        today_end = today_end_row[-1][0] if len(today_end_row) != 0 else datetime.datetime.now()
+        today_end = datetime.datetime.fromisoformat(today_end_row[-1][0]) if len(today_end_row) != 0 else datetime.datetime.now()
 
         if today_start > today_end:  # probably we have a open day
             if ago > 1:
